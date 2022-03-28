@@ -15,7 +15,9 @@ app.use('/v1', indexRouter);
 console.log('Started server')
 
 si.getStaticData()
-  .then(data => console.log(data))
+  .then(data => {
+      console.log(data.uuid.os,data.uuid.hardware,data.os.hostname, data.diskLayout[0].size, data.versions.kernel, data.system.model, data.version)
+    })
   .catch(error => console.error(error))
 
 module.exports = app;
