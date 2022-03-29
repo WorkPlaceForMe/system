@@ -2,6 +2,7 @@
   "name": "system",
   "version": "0.0.1",
   "private": true,
+  "author": "Alex Ignacio Kaiser",
   "scripts": {
     "start": "node ./src/bin/www",
     "dev": "nodemon ./src/bin/www"
