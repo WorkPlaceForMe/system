@@ -11,7 +11,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use('/api', indexRouter);
+app.use('/api/v1', indexRouter);
 
 if (process.env.INSTALL === 'true') {
   mysql
