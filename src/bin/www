@@ -7,8 +7,7 @@
 var app = require('../app');
 var debug = require('debug')('system:server');
 var http = require('http');
-const serial = require('../helper/serial')
-const sender = require('../helper/sender')
+const decider = require('../helper/decider')
 
 /**
  * Get port from environment and store in Express.
@@ -23,18 +22,9 @@ app.set('port', port);
 
 var server = http.createServer(app);
 
-const check = async function(){
+const decide = async function(){
   try{
-    await serial.process()
-  }catch(err){
-    console.log("Server has been stopped...")
-    process.exit(1)
-  }
-}
-
-const sendCheck = async function(){
-  try{
-    const val = await sender.send()
+    const val = await decider.decide()
     if(!val){
       console.log("Server has been stopped...")
       process.exit(1)
@@ -53,8 +43,7 @@ server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 
-// check()
-sendCheck()
+decide()
 
 /**
  * Normalize a port into a number, string, or false.
