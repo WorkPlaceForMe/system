@@ -1,0 +1,37 @@
+module.exports = (sequelize, Sequelize) => {
+    const Serial = sequelize.define('serial', {
+      serial: {
+        type: Sequelize.STRING,
+        primaryKey: true
+      },
+      hardware: {
+        type: Sequelize.STRING(1000)
+      },   
+      uuidOS: {
+        type: Sequelize.STRING
+      },      
+      uuidHardware: {
+        type: Sequelize.STRING
+      },
+      osHostname: {
+        type: Sequelize.STRING
+      },
+      diskSize: {
+        type: Sequelize.STRING
+      },
+      kernel: {
+        type: Sequelize.STRING
+      },
+      systemModel: {
+        type: Sequelize.STRING
+      },
+      version: {
+        type: Sequelize.STRING
+      },
+      diskSerial: {
+        type: Sequelize.STRING
+      },
+    })
+  
+    return Serial
+  }

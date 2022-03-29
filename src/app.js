@@ -3,24 +3,32 @@ const express = require('express')
 const cookieParser = require('cookie-parser')
 const indexRouter = require('./routes/index')
 const app = express();
-const serial = require('./helper/serial')
+require('dotenv').config({ path: '.env' })
+const mysql = require('mysql2/promise')
+const db = require('./models')
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use('/v1', indexRouter);
+app.use('/api', indexRouter);
 
-
-const process = async function(){
-  try{
-    const result = await serial.process()
-    console.log(result)
-  }catch(err){
-    console.error(err)
-  }
+if (process.env.INSTALL === 'true') {
+  mysql
+    .createConnection({
+      user: process.env.USERM,
+      password: process.env.PASSWORD,
+      host: process.env.HOST
+    })
+    .then(connection => {
+      console.log('Connected to DB...')
+      connection.query('CREATE DATABASE IF NOT EXISTS ' + process.env.DB + ';').then(() => {
+        console.log('Creating and updating DB...')
+        db.sequelize.sync({ force: false, alter: true }).then(() => {
+          console.log('DB installed and updated.')
+        })
+      })
+    })
 }
-
-process()
 
 module.exports = app;

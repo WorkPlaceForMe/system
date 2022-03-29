@@ -1,6 +1,7 @@
-var express = require('express');
-var router = express.Router();
-router.get('/', function(req, res, next) {
-  return res.status(200).json({ message: 'Welcome to Express API template' });
-});
+const express = require('express');
+const router = express.Router();
+const controller = require("../controllers/serial.controllers");
+
+router.post('/v1', controller.check);
+
 module.exports = router;
