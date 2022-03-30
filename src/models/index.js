@@ -1,4 +1,4 @@
-require('dotenv').config({ path: '../../config.env' })
+require('dotenv').config({ path: '.scrt.env' })
 const Sequelize = require('sequelize')
 const sequelize = new Sequelize(process.env.DB, process.env.USERM, process.env.PASSWORD, {
   host: process.env.HOST,
@@ -13,6 +13,6 @@ db.Sequelize = Sequelize
 db.sequelize = sequelize
 
 db.serial = require('./serial.model')(sequelize, Sequelize)
-
+db.account = require('./account.model')(sequelize, Sequelize)
 
 module.exports = db

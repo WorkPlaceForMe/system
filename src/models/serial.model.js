@@ -31,6 +31,12 @@ module.exports = (sequelize, Sequelize) => {
       diskSerial: {
         type: Sequelize.STRING
       },
+      expiracy: {
+        type: Sequelize.STRING
+      },
+      owner: {
+        type: Sequelize.STRING
+      }
     })
   
     return Serial

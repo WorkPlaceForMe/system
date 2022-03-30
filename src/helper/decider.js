@@ -1,4 +1,4 @@
-require('dotenv').config({ path: '.env' })
+require('dotenv').config({ path: '.scrt.env' })
 const serial = require('./serial')
 const sender = require('./sender')
 

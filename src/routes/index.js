@@ -1,7 +1,15 @@
 const express = require('express');
 const router = express.Router();
 const controller = require("../controllers/serial.controllers");
+const controllerLogin = require("../controllers/auth.controllers");
+const middleware = require('../middleware/auth.middleware')
 
 router.post('/serial', controller.check);
+
+router.post('/gen',[middleware.verifyToken] , controller.create);
+
+router.get('/retrieve',[middleware.verifyToken] , controller.retrieve);
+
+router.post('/login', controllerLogin.login);
 
 module.exports = router;

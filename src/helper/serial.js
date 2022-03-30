@@ -1,6 +1,6 @@
 const si = require('systeminformation')
 const fs = require('fs')
-require('dotenv').config({ path: '.env' })
+require('dotenv').config({ path: '.scrt.env' })
 const crypt = require('crypto-js')
 
 exports.process = async() => {

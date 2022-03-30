@@ -1,4 +1,4 @@
-require('dotenv').config({ path: '.env' })
+require('dotenv').config({ path: '.scrt.env' })
 const axios = require('axios');
 const si = require('systeminformation')
 const crypt = require('crypto-js')
