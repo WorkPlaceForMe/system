@@ -108,3 +108,4 @@ node_modules/**
 .key.scrt
 
 .env
+.scrt.env
