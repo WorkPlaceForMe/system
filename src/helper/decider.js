@@ -7,8 +7,8 @@ exports.decide = async() => {
             const val = await sender.send()
             return val
         }else if(process.env.SERIALMODE === 'offline'){
-            await serial.process()
-            return true
+            const val = await serial.process()
+            return val
         }else{
             return false
         }
