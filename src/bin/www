@@ -22,19 +22,6 @@ app.set('port', port);
 
 var server = http.createServer(app);
 
-const decide = async function(){
-  try{
-    const val = await decider.decide()
-    if(!val){
-      console.log("Server has been stopped...")
-      process.exit(1)
-    }
-  }catch(err){
-    console.log("Server has been stopped...")
-    process.exit(1)
-  }
-}
-
 /**
  * Listen on provided port, on all network interfaces.
  */
