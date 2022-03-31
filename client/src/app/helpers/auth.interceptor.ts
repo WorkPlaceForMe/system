@@ -11,10 +11,10 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
     let authReq = req;
-    const token = JSON.parse(localStorage.getItem('usr')).accessToken
+    const token = JSON.parse(localStorage.getItem('usr'))
     
-    if (token != null) {
-        authReq = req.clone({ headers: req.headers.set(TOKEN_HEADER_KEY, token) });
+    if (token != null && token.accessToken != null) {
+        authReq = req.clone({ headers: req.headers.set(TOKEN_HEADER_KEY, token.accessToken) });
       }
       return next.handle(authReq);
     }

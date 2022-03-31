@@ -57,31 +57,33 @@ export class LoginComponent implements OnInit {
 
     this.face.login(this.registerForm.value).subscribe(
       data => {
+        console.log(data)
         this.saveUser(data.user);
         this.router.navigate(['/pages/dashboard'])
         this.isLoggedIn = true;
         window.location.reload()
       },
       err => {
-        this.errorMessage = err.error.message;
-        if(err.error.type == 'user'){
-          this.values.username = 'danger'
-          this.registerForm.controls['username'].setErrors({required:true})
-        }
-        if(err.error.type == 'password'){
-          this.values.password = 'danger'
-          this.registerForm.controls['password'].setErrors({required:true})
-        }
-        if(err.error.type == 'disable'){
-          this.values.login = 'danger'
-          this.showToast(err.error.message)
-        }
-        if(err.error.type == 'logged'){
-          this.values.login = 'danger'
-          this.values.username = 'danger'
-          this.values.password = 'danger'
-          this.showToast(err.error.message)
-        }
+        console.error(err)
+        // this.errorMessage = err.error.message;
+        // if(err.error.type == 'user'){
+        //   this.values.username = 'danger'
+        //   this.registerForm.controls['username'].setErrors({required:true})
+        // }
+        // if(err.error.type == 'password'){
+        //   this.values.password = 'danger'
+        //   this.registerForm.controls['password'].setErrors({required:true})
+        // }
+        // if(err.error.type == 'disable'){
+        //   this.values.login = 'danger'
+        //   this.showToast(err.error.message)
+        // }
+        // if(err.error.type == 'logged'){
+        //   this.values.login = 'danger'
+        //   this.values.username = 'danger'
+        //   this.values.password = 'danger'
+        //   this.showToast(err.error.message)
+        // }
         this.loading = false;
       }
     );
@@ -91,6 +93,7 @@ export class LoginComponent implements OnInit {
     const USER_KEY = 'usr';
     localStorage.removeItem(USER_KEY)
     localStorage.setItem(USER_KEY , JSON.stringify(user))
+    console.log(user)
   }
 
   reloadPage() {

@@ -10,6 +10,14 @@ router.post('/gen',[middleware.verifyToken] , controller.create);
 
 router.get('/retrieve',[middleware.verifyToken] , controller.retrieve);
 
+router.post('/retrieveOne',[middleware.verifyToken] , controller.retrieveOne);
+
+router.put('/update',[middleware.verifyToken] , controller.update);
+
+router.delete('/del/:id',[middleware.verifyToken] , controller.del);
+
+router.get('/check',[middleware.verifyToken] , controllerLogin.check);
+
 router.post('/login', controllerLogin.login);
 
 module.exports = router;

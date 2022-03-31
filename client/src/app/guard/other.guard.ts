@@ -18,6 +18,19 @@ export class OtherGuard implements CanActivate {
             // window.location.reload()
             return this.router.navigate(['/pages/sign-in'])
       } 
+      this.facesService.mess().subscribe(
+        res => {
+          // console.log(res)
+        },
+        err => {
+          console.log(err)
+            window.localStorage.clear();
+            window.sessionStorage.clear();
+            window.location.reload()
+            this.router.navigate(['/pages'])
+            window.alert("Your session has expired, please log in again.");
+        }
+      )
     return true;
     }
 }

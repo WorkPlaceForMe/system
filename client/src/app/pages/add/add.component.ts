@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NbCalendarRange, NbDateService, NbWindowRef } from '@nebular/theme';
@@ -14,7 +15,7 @@ export class AddComponent implements OnInit {
   is_saving : boolean = false;
   submitted = false;
   values:any = {
-    name: 'primary',
+    expiry: 'primary',
     owner: 'primary',
   }
   edit : boolean = false;
@@ -25,32 +26,45 @@ export class AddComponent implements OnInit {
   range: NbCalendarRange<Date>;
   max: Date;
   fin: Date;
+  min: Date;
   constructor(
     private formBuilder: FormBuilder,
     protected windowRef: NbWindowRef,
     private facesService: FacesService,
     protected dateService: NbDateService<Date>,
+    public datepipe: DatePipe
     ) { }
-
+  now:string; 
   ngOnInit(): void {
-    // if(this.id != undefined){
-    //   this.edit = true
-    //   this.facesService.getSite(this.id)
-    //     .subscribe(
-    //       res =>{
-    //         console.log(res)
-    //         this.registerForm.controls['name'].setValue(res['publ'].name)
-    //         this.registerForm.controls['owner'].setValue(res['publ'].nickname)
-    //       },
-    //       err => console.error(err)
-    //   )
-    // }
+    if(this.id != undefined){
+      this.edit = true
+      this.facesService.getSite({srl : this.id})
+        .subscribe(
+          res =>{
+            this.registerForm.controls['expiry'].setValue(new Date(res['data'].expiracy))
+            this.registerForm.controls['owner'].setValue(res['data'].owner)
+            this.min = this.dateService.addDay(this.dateService.today(), +1)
+            const a = this.dateService.addDay(new Date(res['data'].expiracy), 0)
+            this.fin = new Date(a.setHours(a.getHours() + 23))
+            this.fin = new Date(this.fin.setMinutes(this.fin.getMinutes() + 59))
+            this.fin = new Date(this.fin.setSeconds(this.fin.getSeconds() + 59))
+            this.range = {
+              start: new Date(res['data'].expiracy),
+              end: new Date(this.fin),
+            }
+          },
+          err => console.error(err)
+      )
+    }
     this.selectedDate =  this.dateService.addDay(this.dateService.today(), 0);
     this.max = this.dateService.addDay(this.dateService.today(), 0);
     const a = this.dateService.addDay(this.dateService.today(), 0);
     this.fin = new Date(a.setHours(a.getHours() + 23));
     this.fin = new Date(this.fin.setMinutes(this.fin.getMinutes() + 59));
     this.fin = new Date(this.fin.setSeconds(this.fin.getSeconds() + 59));
+    this.min = this.dateService.addDay(this.dateService.today(), +1);
+    const now = this.datepipe.transform(this.max, 'MMM dd, yyyy')
+    this.now = now
     this.range = {
       start: new Date(this.max),
       end: new Date(this.fin),
@@ -90,9 +104,9 @@ export class AddComponent implements OnInit {
     }
       return;
   }
-  console.log(this.registerForm.value.expiry,new Date(this.max),this.registerForm.value.expiry == this.max)
-  if(this.registerForm.value.expiry === '' || new Date(this.registerForm.value.expiry) == new Date(this.max)){
-    console.log("inside")
+
+  if(this.registerForm.value.expiry === ''){
+    this.registerForm.value.expiry = 'Unlimited'
   }
 
   this.is_saving = true;
@@ -104,9 +118,9 @@ export class AddComponent implements OnInit {
     },
     err => {
       this.is_saving = false;
-      if (err.error.repeated === 'name'){
-          this.values.name = 'danger';
-          this.registerForm.controls['name'].setErrors({cantMatch: true});
+      if (err.error.repeated === 'owner'){
+          this.values.owner = 'danger';
+          this.registerForm.controls['owner'].setErrors({cantMatch: true});
       }
     }
     )

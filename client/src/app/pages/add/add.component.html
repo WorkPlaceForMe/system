@@ -13,8 +13,8 @@
             </div>
             <div class="form-group">
               <label for="expiry" class="label">Expiry</label>
-              <input nbInput placeholder="Pick Date" [value]="range.start" [nbDatepicker]="dateTimePicker" fullWidth fieldSize="small" formControlName="expiry"  [status]='values.expiry'>
-              <nb-datepicker  [(date)] = "selectedDate" #dateTimePicker></nb-datepicker>
+              <input nbInput placeholder="Pick Date" [value]="now" [nbDatepicker]="dateTimePicker" fullWidth fieldSize="small" formControlName="expiry"  [status]='values.expiry'>
+              <nb-datepicker [min]="min" [(date)] = "selectedDate" #dateTimePicker></nb-datepicker>
             </div>
 
 

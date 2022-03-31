@@ -1,10 +1,11 @@
 import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { ActivatedRoute, Router } from '@angular/router';
 import { NbCalendarRange, NbDateService, NbPopoverDirective, NbWindowService } from '@nebular/theme';
 import { LocalDataSource, ViewCell } from 'ng2-smart-table';
 import { FacesService } from '../../services/faces.service';
 import { AddComponent } from '../add/add.component';
+import { DatePipe } from '@angular/common'
+
 @Component({
   selector: 'ngx-dashboard',
   templateUrl: './dashboard.component.html',
@@ -15,10 +16,9 @@ export class DashboardComponent implements OnInit {
   constructor(
     public sanitizer: DomSanitizer,
     private face: FacesService,
-    private activatedRoute: ActivatedRoute,
-    private router: Router,
     protected dateService: NbDateService<Date>,
-    private windowService: NbWindowService
+    private windowService: NbWindowService,
+    public datepipe: DatePipe
   ) { }
   source: any = new LocalDataSource();
 
@@ -32,6 +32,9 @@ export class DashboardComponent implements OnInit {
     this.face.getSerials().subscribe(
       res => {
         this.source = res['data']
+        for(const data of this.source){
+          data.expiracy = this.datepipe.transform(data.expiracy, 'MMM dd, yyyy');
+        }
       },
       err => console.error(err)
     )
@@ -52,14 +55,14 @@ export class DashboardComponent implements OnInit {
         onChange: changes => {
           this.getSerials()
         },
-         id: event.data.id
+         id: event.data.serial
       }
     });
   }
 
   delete(event){
     if(confirm('Do you want to delete this website?')){
-      this.face.delSite(event.data.id).subscribe(
+      this.face.delSite(event.data.serial).subscribe(
         res => {
           this.getSerials()
         },

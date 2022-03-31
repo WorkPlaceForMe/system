@@ -22,8 +22,7 @@ export class FacesService {
 
   encrypt(pass) {
     return CryptoJS.AES.encrypt(pass, environment.SERIAL).toString();
-  }
-  
+  }  
   getStats(range){
     return this.http.get(`${this.API_URI}/stats?init=${range.start}&fin=${range.end}`);
   }
@@ -49,19 +48,22 @@ export class FacesService {
     return this.http.post(`${this.API_URI}/v1/gen`,body);
   }
   updateSite(body){
-    return this.http.put(`${this.API_URI}/update/`,body);
+    return this.http.put(`${this.API_URI}/v1/update/`,body);
   }
-  getSite(id){
-    return this.http.get(`${this.API_URI}/site/${id}`);
+  getSite(body){
+    return this.http.post(`${this.API_URI}/v1/retrieveOne`, body);
   }
   getSites(){
     return this.http.get(`${this.API_URI}/sites/`);
   }
   delSite(id){
-    return this.http.delete(`${this.API_URI}/del/${id}`);
+    return this.http.delete(`${this.API_URI}/v1/del/${id}`);
   }
   getSerials(){
     return this.http.get(`${this.API_URI}/v1/retrieve`);
+  }
+  mess() {
+    return this.http.get(`${this.API_URI}/v1/check`);
   }
 
   login(credentials): Observable<any> {
@@ -71,6 +73,7 @@ export class FacesService {
       username: credentials.username
     }, httpOptions);
   }
+  
   get isLoggedIn(): boolean {
     return (this.now_user !== null) ? true : false;
   }

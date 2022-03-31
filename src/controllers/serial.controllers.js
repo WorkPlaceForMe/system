@@ -102,11 +102,18 @@ exports.check = async (req, res) => {
 exports.create = async (req,res) => {
     const serial = uuidv4()
     const data = req.body
+
+    if(data.expiry != 'Unlimited'){
+        data.expiry = new Date(data.expiry)
+        data.expiry = data.expiry.setHours(data.expiry.getHours() + 1);
+        data.expiry = new Date(data.expiry).toString()
+        // data.expiry = data.expiry.getDate()+'-'+(data.expiry.getMonth()+1)+'-'+data.expiry.getFullYear();
+    }
     console.log('Successfull login: Creating new serial key.')
     Serial.create({
         serial: serial,
         owner: data.owner,
-        expiry: data.expiry
+        expiracy: data.expiry
       })
     res.status(200).json({ success: true, serial: serial})
 }
@@ -117,4 +124,47 @@ exports.retrieve = async (req,res) => {
     }).catch(err =>{
         res.status(500).json({ success: false, message: err })
     })
+}
+
+exports.retrieveOne = async (req,res) => {
+    const data = req.body
+    Serial.findOne({
+        where: { serial: data.srl }
+    }).then(serials =>{
+        res.status(200).json({ success: true, data: serials })
+    }).catch(err =>{
+        res.status(500).json({ success: false, message: err })
+    })
+}
+
+exports.del = async(req, res) => {
+    const data = req.params.id
+    await delSite(data)
+    res.status(200).json({success: true});
+}
+
+exports.update = async(req, res) => {
+    const data = req.body
+    console.log(data)
+    try{
+        await updateDb(data)
+        res.status(200).json({success: true});
+    }catch(err){
+
+        res.status(500).json({success: false, mess: err})
+    }
+}
+
+const delSite = async function(id){
+    return Serial.destroy({
+      where: { serial: id }
+    })
+}
+
+async function updateDb(body) {
+    const srl = await Serial.findOne({
+        where: { serial: body.id },
+    })
+    await srl.update({owner: body.owner, expiracy: body.expiry})
+    return srl
 }
