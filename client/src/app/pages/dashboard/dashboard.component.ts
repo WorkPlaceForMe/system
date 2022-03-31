@@ -20,7 +20,7 @@ export class DashboardComponent implements OnInit {
     private windowService: NbWindowService,
     public datepipe: DatePipe
   ) { }
-  source: any = new LocalDataSource();
+  source = new LocalDataSource();
 
   show: boolean = false;
 
@@ -31,10 +31,13 @@ export class DashboardComponent implements OnInit {
   getSerials(){
     this.face.getSerials().subscribe(
       res => {
-        this.source = res['data']
-        for(const data of this.source){
-          data.expiracy = this.datepipe.transform(data.expiracy, 'MMM dd, yyyy');
+        let dataTable = res['data']
+        for(const data of dataTable){
+          if(data.expiracy != 'Unlimited'){
+            data.expiracy = this.datepipe.transform(data.expiracy, 'MMM dd, yyyy');
+          }
         }
+        this.source.load(dataTable)
       },
       err => console.error(err)
     )

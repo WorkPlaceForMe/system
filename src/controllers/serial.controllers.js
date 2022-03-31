@@ -110,7 +110,7 @@ exports.create = async (req,res) => {
         // data.expiry = data.expiry.getDate()+'-'+(data.expiry.getMonth()+1)+'-'+data.expiry.getFullYear();
     }
     console.log('Successfull login: Creating new serial key.')
-    Serial.create({
+    await Serial.create({
         serial: serial,
         owner: data.owner,
         expiracy: data.expiry
