@@ -29,11 +29,9 @@ exports.check = async (req, res) => {
                     uuidOS: comparison[0],
                     uuidHardware: comparison[1],
                     osHostname: comparison[2],
-                    diskSize: comparison[3],
-                    kernel: comparison[4],
-                    systemModel: comparison[5],
-                    version: comparison[6],
-                    diskSerial: comparison[7],
+                    kernel: comparison[3],
+                    systemModel: comparison[4],
+                    version: comparison[5],
                     hardware: encrypted
                   }, {
                     where: { serial: ser }

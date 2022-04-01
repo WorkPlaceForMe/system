@@ -5,9 +5,8 @@ const indexRouter = require('./routes/index')
 const app = express();
 require('dotenv').config({ path: '.scrt.env' })
 const dbInstaller = require('./helper/dbInstaller')
-const cors = require('cors')
 
-app.use(logger('dev'));
+app.use(logger('Method: :method:url // Url: :remote-addr // Status::status // User-agent: :user-agent // Date: :date[web]'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());

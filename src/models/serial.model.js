@@ -16,9 +16,6 @@ module.exports = (sequelize, Sequelize) => {
       osHostname: {
         type: Sequelize.STRING
       },
-      diskSize: {
-        type: Sequelize.STRING
-      },
       kernel: {
         type: Sequelize.STRING
       },
@@ -26,9 +23,6 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.STRING
       },
       version: {
-        type: Sequelize.STRING
-      },
-      diskSerial: {
         type: Sequelize.STRING
       },
       expiracy: {
