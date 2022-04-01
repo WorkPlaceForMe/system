@@ -15,7 +15,7 @@ exports.check = async (req, res) => {
       })
         .then(serial => {
             if (!serial) {
-                result = "Unsuccessfully read: No serial present."
+                const result = "Unsuccessfully read: No serial present."
                 console.log(result)
                 let value = crypt.AES.encrypt('false', process.env.SECRETLOCAL).toString()
                 res.status(401).send({ success: false, message: result,  auth: value})
@@ -39,13 +39,13 @@ exports.check = async (req, res) => {
                     where: { serial: ser }
                   })
                     .then(_serial => {
-                        result = "Successfully wrote: Serial saved."
+                        const result = "Successfully wrote: Serial saved."
                         console.log(result)
                         let value = crypt.AES.encrypt('true', process.env.SECRETLOCAL).toString()
                         res.status(201).send({ success: true, message: 'Serial has been registered successfully.', auth: value })
                     })
                     .catch(err => {
-                        result = "Unsuccessfully wrote: Database failled saved."
+                        const result = "Unsuccessfully wrote: Database failled saved."
                         console.log(result)
                         let value = crypt.AES.encrypt('false', process.env.SECRETLOCAL).toString()
                         res.status(500).send({ success: false, message: err.message,  auth: value})
@@ -56,12 +56,12 @@ exports.check = async (req, res) => {
                 const bytes  = crypt.AES.decrypt(serial.dataValues.hardware, process.env.SECRETSERVER);
                 const comp = bytes.toString(crypt.enc.Utf8);
                 if(comparison.join('/|') === comp){
-                    result = "Successfully read: Serial matched."
+                    const result = "Successfully read: Serial matched."
                     console.log(result)
                     let value = crypt.AES.encrypt('true', process.env.SECRETLOCAL).toString()
                     res.status(202).send({ success: true, auth: value })
                 }else{
-                    result = "Unsuccessful read: Serial don't match with the present one."
+                    const result = "Unsuccessful read: Serial don't match with the present one."
                     console.log(result)
                     let value = crypt.AES.encrypt('false', process.env.SECRETLOCAL).toString()
                     res.status(401).send({ success: true, auth: value })

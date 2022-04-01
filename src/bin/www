@@ -7,7 +7,6 @@
 var app = require('../app');
 var debug = require('debug')('system:server');
 var http = require('http');
-const decider = require('../helper/decider')
 
 /**
  * Get port from environment and store in Express.
