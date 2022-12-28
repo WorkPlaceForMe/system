@@ -79,3 +79,7 @@ exports.login = (req, res) => {
 exports.check = (req, res) => {
   res.status(200).send({ success: true, message: 'Session still active' })
 }
+
+exports.info = (req, res) => {
+  res.status(200).send({ success: true, message: 'Information of server' })
+}
