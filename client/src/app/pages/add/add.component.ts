@@ -41,7 +41,13 @@ export class AddComponent implements OnInit {
       this.facesService.getSite({srl : this.id})
         .subscribe(
           res =>{
-            this.registerForm.controls['expiry'].setValue(new Date(res['data'].expiracy))
+            let expiracy;
+            if(res['data'].expiracy === 'Unlimited'){
+              expiracy = new Date()
+            }else{
+              expiracy = new Date(res['data'].expiracy)
+            }
+            this.registerForm.controls['expiry'].setValue(expiracy)
             this.registerForm.controls['owner'].setValue(res['data'].owner)
             this.min = this.dateService.addDay(this.dateService.today(), +1)
             const a = this.dateService.addDay(new Date(res['data'].expiracy), 0)
